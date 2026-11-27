@@ -309,3 +309,64 @@ dd em {
     font-style: normal;
     font-weight: 700;
 }
+/* ===== Infografía interactiva: proceso FAU ===== */
+.infografia {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.infografia text {
+    font-family: var(--font-sans, "Bricolage Grotesque", sans-serif);
+}
+
+.info-categoria { font-size: 14px; letter-spacing: 0.16em; fill: #73808f; }
+.info-titulo { font-size: 38px; font-weight: 600; fill: #102d72; }
+.info-subtitulo { font-size: 18px; font-weight: 300; fill: #3c3c3c; }
+.info-seccion { font-size: 14px; font-weight: 500; letter-spacing: 0.1em; fill: #d94332; }
+.info-ayuda { font-size: 16px; fill: #73808f; }
+
+.info-linea { stroke: #123a9b; stroke-width: 2; stroke-dasharray: 12 8; }
+.info-progreso { stroke: #d94332; stroke-width: 3; }
+
+.paso { cursor: pointer; outline: none; }
+.paso-area { fill: transparent; transition: fill 0.2s; }
+.paso:hover .paso-area,
+.paso:focus-visible .paso-area { fill: #e9e6dd; }
+.paso circle { fill: #fcfcfc; stroke: #102d72; stroke-width: 2; transition: fill 0.2s, stroke 0.2s; }
+.paso-num { font-size: 22px; font-weight: 600; fill: #102d72; text-anchor: middle; pointer-events: none; }
+.paso-etiqueta { font-size: 13px; letter-spacing: 0.1em; fill: #73808f; }
+.paso-titulo { font-size: 22px; font-weight: 500; fill: #3c3c3c; }
+
+.paso.completado circle { fill: #102d72; }
+.paso.completado .paso-num { fill: #fcfcfc; }
+.paso.activo circle { fill: #d94332; stroke: #d94332; }
+.paso.activo .paso-num { fill: #fcfcfc; }
+.paso.activo .paso-etiqueta { fill: #d94332; }
+.paso.activo .paso-titulo { fill: #102d72; font-weight: 600; }
+
+.det-caja { fill: #ffffff; stroke: #d7d4cc; }
+.det-etiqueta { font-size: 13px; font-weight: 500; letter-spacing: 0.1em; fill: #d94332; }
+.det-titulo { font-size: 24px; font-weight: 600; fill: #102d72; }
+.det-desc { font-size: 19px; font-weight: 300; fill: #3c3c3c; }
+.det-anim { animation: info-aparecer 0.3s ease; }
+
+@keyframes info-aparecer {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.info-boton { cursor: pointer; outline: none; }
+.info-boton rect { fill: #102d72; transition: fill 0.2s; }
+.info-boton:hover rect,
+.info-boton:focus-visible rect { fill: #d94332; }
+.info-boton text { font-size: 16px; fill: #fcfcfc; text-anchor: middle; pointer-events: none; }
+.info-boton.desactivado { opacity: 0.3; cursor: default; }
+.info-boton.desactivado:hover rect { fill: #102d72; }
+.info-contador { font-size: 16px; fill: #73808f; text-anchor: middle; }
+
+.info-importante-caja { fill: #102d72; }
+.info-importante { font-size: 13px; font-weight: 600; letter-spacing: 0.16em; fill: #fcfcfc; }
+.info-nota { font-size: 16px; font-weight: 300; fill: #fcfcfc; }
+.info-enlace { font-size: 16px; fill: #fcfcfc; text-decoration: underline; }
+.info-enlace:hover { fill: #d7d4cc; }
