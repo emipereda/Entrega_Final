@@ -127,3 +127,117 @@ document.addEventListener("DOMContentLoaded", () => {
 
     map.fitBounds([origen, destino], { padding: [40, 40] });
 });
+// ===== Infografía interactiva: proceso de intercambio nivel FAU =====
+document.addEventListener("DOMContentLoaded", () => {
+    const svg = document.getElementById("infografia");
+    if (!svg) return;
+
+    // Contenido de cada etapa (fuente: Movilidad FAU)
+    const pasosInfo = [
+        {
+            etiqueta: "PASO 1 · REQUISITOS",
+            titulo: "Antes de postular",
+            desc: [
+                "Comprueba que cumples las condiciones académicas",
+                "y administrativas indicadas en la convocatoria vigente.",
+            ],
+        },
+        {
+            etiqueta: "PASO 2 · DOCUMENTACIÓN",
+            titulo: "Prepara tus antecedentes",
+            desc: [
+                "Completa el formulario y reúne los documentos",
+                "solicitados. Revisa los formatos y plazos de entrega.",
+            ],
+        },
+        {
+            etiqueta: "PASO 3 · SELECCIÓN",
+            titulo: "Evaluación de postulaciones",
+            desc: [
+                "La FAU revisa los antecedentes y realiza la selección",
+                "de estudiantes según los criterios establecidos",
+                "en la convocatoria.",
+            ],
+        },
+        {
+            etiqueta: "PASO 4 · ADJUDICACIÓN",
+            titulo: "Confirma tu cupo",
+            desc: [
+                "Recibe el resultado y acepta o rechaza el cupo",
+                "asignado dentro del plazo informado por la FAU.",
+            ],
+        },
+        {
+            etiqueta: "PASO 5 · ADMISIÓN",
+            titulo: "Postulación al destino",
+            desc: [
+                "Completa el proceso de admisión de la universidad",
+                "de destino y espera la confirmación oficial.",
+            ],
+        },
+    ];
+
+    const NS = "http://www.w3.org/2000/svg";
+    const pasos = [...svg.querySelectorAll(".paso")];
+    const textos = svg.querySelector("#det-textos");
+    const etiqueta = svg.querySelector("#det-etiqueta");
+    const titulo = svg.querySelector("#det-titulo");
+    const desc = svg.querySelector("#det-desc");
+    const contador = svg.querySelector("#info-contador");
+    const progreso = svg.querySelector("#info-progreso");
+    const anterior = svg.querySelector("#info-anterior");
+    const siguiente = svg.querySelector("#info-siguiente");
+
+    let actual = 0;
+
+    const mostrar = (i) => {
+        actual = Math.max(0, Math.min(pasosInfo.length - 1, i));
+        const paso = pasosInfo[actual];
+
+        // Estado visual de cada etapa: activa, completada o pendiente
+        pasos.forEach((g, n) => {
+            g.classList.toggle("activo", n === actual);
+            g.classList.toggle("completado", n < actual);
+            g.setAttribute("aria-pressed", n === actual);
+        });
+
+        // Panel de detalle
+        etiqueta.textContent = paso.etiqueta;
+        titulo.textContent = paso.titulo;
+        desc.replaceChildren(
+            ...paso.desc.map((linea, n) => {
+                const tspan = document.createElementNS(NS, "tspan");
+                tspan.setAttribute("x", "55");
+                tspan.setAttribute("dy", n === 0 ? "0" : "26");
+                tspan.textContent = linea;
+                return tspan;
+            })
+        );
+        textos.classList.remove("det-anim");
+        textos.getBoundingClientRect(); // reinicia la animación
+        textos.classList.add("det-anim");
+
+        // Barra de avance y navegación
+        contador.textContent = `${actual + 1} / ${pasosInfo.length}`;
+        progreso.setAttribute("y2", 300 + actual * 100);
+        anterior.classList.toggle("desactivado", actual === 0);
+        siguiente.classList.toggle("desactivado", actual === pasosInfo.length - 1);
+    };
+
+    // Clic y teclado (Enter o espacio)
+    const activar = (el, accion) => {
+        el.addEventListener("click", accion);
+        el.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                accion();
+            }
+        });
+    };
+
+    pasos.forEach((g, n) => activar(g, () => mostrar(n)));
+    activar(anterior, () => mostrar(actual - 1));
+    activar(siguiente, () => mostrar(actual + 1));
+
+    mostrar(0);
+});
