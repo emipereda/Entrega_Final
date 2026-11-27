@@ -272,12 +272,13 @@ h2.pasaporte::before {
 }
 
 .infografia {
-    display: block;
+    margin: 2rem 0;
+}
+
+.infografia svg {
     width: 100%;
-    max-width: 100%;
     height: auto;
-    margin: 2rem auto;
-    object-fit: contain;
+    display: block;
 }
 /* Pie */
 footer {
